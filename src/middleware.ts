@@ -4,8 +4,10 @@ import { verifySessionToken, SESSION_COOKIE } from "@/lib/session";
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Public API surface: login/logout only.
-  if (pathname.startsWith("/api/auth/")) return NextResponse.next();
+  // Public API surface: login/logout + Vercel cron (secured by CRON_SECRET in the route).
+  if (pathname.startsWith("/api/auth/") || pathname.startsWith("/api/cron/")) {
+    return NextResponse.next();
+  }
 
   const session = await verifySessionToken(req.cookies.get(SESSION_COOKIE)?.value);
 
