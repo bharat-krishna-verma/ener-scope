@@ -43,9 +43,21 @@ export default function PortalsPage() {
   }
   async function test(f: any) {
     setMsg("Testing portal…");
-    const res = await fetch("/api/portals/test", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(f) });
+    const payload = {
+      ...f,
+      id: editing && editing !== "new" ? editing : f.id || f._id,
+    };
+    const res = await fetch("/api/portals/test", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
     const d = await res.json();
-    setMsg(d.ok ? `OK — ${d.found} row(s) found. Sample: ${d.sample.map((s: any) => s.title).join(" | ")}` : `FAILED — ${d.error}`);
+    setMsg(
+      d.ok
+        ? `OK — ${d.found} row(s) found. Sample: ${(d.sample || []).map((s: any) => s.title).join(" | ")}`
+        : `FAILED — ${d.error}`,
+    );
   }
 
   const setA = (k: string, v: string) => setForm((f: any) => ({ ...f, access: { ...f.access, [k]: v } }));

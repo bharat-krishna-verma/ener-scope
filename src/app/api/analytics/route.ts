@@ -10,10 +10,12 @@ export async function GET() {
 
   const since = startOfToday();
 
-  const todayTotal = await Tender.countDocuments({});
-  const overall = await Tender.countDocuments({});
-  const portals = await Portal.countDocuments({});
-  const sources = await Source.countDocuments({ enabled: true });
+  const [todayTotal, overall, portals, sources] = await Promise.all([
+    Tender.countDocuments({ foundAt: { $gte: since } }),
+    Tender.countDocuments({}),
+    Portal.countDocuments({}),
+    Source.countDocuments({ enabled: true }),
+  ]);
 
   // Avoid Mongoose .lean() union typing issues in Next production builds
   const lastRunRaw = await RunLog.findOne().sort({ createdAt: -1 }).lean().exec();
