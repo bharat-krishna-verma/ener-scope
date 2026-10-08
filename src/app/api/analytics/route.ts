@@ -8,23 +8,21 @@ export async function GET() {
 
   const since = startOfToday();
 
-  const [todayTotal, overall, portals, sources, lastRunDoc] =
-    await Promise.all([
-      Tender.countDocuments({}),
-      Tender.countDocuments({}),
-      Portal.countDocuments({}),
-      Source.countDocuments({ enabled: true }),
-      RunLog.findOne().sort({ createdAt: -1 }).lean(),
-    ]);
+  const todayTotal = await Tender.countDocuments({});
+  const overall = await Tender.countDocuments({});
+  const portals = await Portal.countDocuments({});
+  const sources = await Source.countDocuments({ enabled: true });
 
-  const lastRun = lastRunDoc as { createdAt?: Date } | null;
+  // Avoid Mongoose .lean() union typing issues in Next production builds
+  const lastRunRaw = await RunLog.findOne().sort({ createdAt: -1 }).lean().exec();
+  const lastRunAt =
+    lastRunRaw && !Array.isArray(lastRunRaw) && "createdAt" in lastRunRaw
+      ? ((lastRunRaw as { createdAt?: Date }).createdAt ?? null)
+      : null;
 
-  const docs = await Tender.find()
-    .sort({ foundAt: -1 })
-    .limit(500)
-    .lean();
+  const docs = (await Tender.find().sort({ foundAt: -1 }).limit(500).lean().exec()) as any[];
 
-  const rows: TenderRow[] = (docs as any[]).map((d) => ({
+  const rows: TenderRow[] = docs.map((d) => ({
     title: d.title,
     link: d.link,
     org: d.org,
@@ -45,7 +43,7 @@ export async function GET() {
       overall,
       portals,
       sources,
-      lastRunAt: lastRun?.createdAt ?? null,
+      lastRunAt,
     },
     today: rows.filter((r) => new Date(r.foundAt) >= since),
     earlier: rows.filter((r) => new Date(r.foundAt) < since),
