@@ -4,6 +4,8 @@ import { SESSION_COOKIE, verifySessionToken } from "./session";
 import { dbConnect } from "./mongodb";
 import { User } from "./models";
 
+export { SESSION_COOKIE };
+
 export function hashPassword(password: string): string {
   const salt = crypto.randomBytes(16).toString("hex");
   const hash = crypto.scryptSync(password, salt, 64).toString("hex");
