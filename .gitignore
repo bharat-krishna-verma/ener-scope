@@ -44,3 +44,5 @@ coverage/
 # vercel / misc
 .vercel
 *.tgz
+
+.vercel
