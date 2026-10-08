@@ -3,6 +3,8 @@ import { dbConnect } from "@/lib/mongodb";
 import { Portal } from "@/lib/models";
 import { encrypt } from "@/lib/crypto";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: Request) {
   await dbConnect();
   const { searchParams } = new URL(req.url);

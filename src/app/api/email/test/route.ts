@@ -8,6 +8,8 @@ import { sendDigestEmail } from "@/lib/tender/mailer";
 import { sendDailyDigest } from "@/lib/tender/runner";
 import { getCurrentSession } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   try {
     const body = await req.json().catch(() => ({}));

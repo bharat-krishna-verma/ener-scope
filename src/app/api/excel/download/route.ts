@@ -5,6 +5,8 @@ import { getSettings } from "@/lib/settings";
 import { daysLeft, startOfToday, type TenderRow } from "@/lib/tender/pipeline";
 import { buildWorkbook, resolveColumns } from "@/lib/tender/excel";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   await dbConnect();
   const settings = await getSettings();

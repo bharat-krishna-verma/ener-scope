@@ -11,6 +11,8 @@ import { getCurrentSession } from "@/lib/auth";
 import { User } from "@/lib/models";
 import { dbConnect } from "@/lib/mongodb";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(req: Request) {
   const key = new URL(req.url).searchParams.get("key");
   const s = await getSettings();

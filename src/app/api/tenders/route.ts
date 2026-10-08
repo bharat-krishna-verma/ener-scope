@@ -3,6 +3,8 @@ import { dbConnect } from "@/lib/mongodb";
 import { Tender } from "@/lib/models";
 import { daysLeft, sortRows, startOfToday, type TenderRow } from "@/lib/tender/pipeline";
 
+export const dynamic = "force-dynamic";
+
 const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 export async function GET(req: Request) {

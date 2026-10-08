@@ -3,6 +3,8 @@ import { dbConnect } from "@/lib/mongodb";
 import { Portal } from "@/lib/models";
 import { encrypt } from "@/lib/crypto";
 
+export const dynamic = "force-dynamic";
+
 type Ctx = { params: { id: string } };
 
 export async function PUT(req: Request, { params }: Ctx) {

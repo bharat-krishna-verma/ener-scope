@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { getSettings, saveSettings } from "@/lib/settings";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   const s = await getSettings();
   return NextResponse.json({ ok: true, keywords: s.keywords, excludeKeywords: s.excludeKeywords });

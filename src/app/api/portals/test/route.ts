@@ -4,6 +4,8 @@ import { Portal } from "@/lib/models";
 import { decrypt } from "@/lib/crypto";
 import { scrapePortal } from "@/lib/tender/scraper";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   const body = await req.json();
   try {

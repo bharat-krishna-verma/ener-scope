@@ -4,6 +4,8 @@ import { Source } from "@/lib/models";
 import { decrypt, encrypt } from "@/lib/crypto";
 import { packGem, testGemSession } from "@/lib/tender/gem";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   await dbConnect();
   const doc = await Source.findOne({ type: "gem" }).lean();

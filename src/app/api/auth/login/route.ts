@@ -4,6 +4,8 @@ import { User } from "@/lib/models";
 import { verifyPassword } from "@/lib/auth";
 import { createSessionToken, SESSION_COOKIE } from "@/lib/session";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   await dbConnect();
   const { email, password } = await req.json();

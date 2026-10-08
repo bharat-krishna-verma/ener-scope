@@ -3,6 +3,8 @@ import { dbConnect } from "@/lib/mongodb";
 import { User } from "@/lib/models";
 import { hashPassword } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   await dbConnect();
   const users = await User.find().select("email name role createdAt").lean();

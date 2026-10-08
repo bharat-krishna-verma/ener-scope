@@ -3,6 +3,8 @@ import { dbConnect } from "@/lib/mongodb";
 import { Portal, Source, Tender, RunLog } from "@/lib/models";
 import { daysLeft, startOfToday, type TenderRow } from "@/lib/tender/pipeline";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   await dbConnect();
 

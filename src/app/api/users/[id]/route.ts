@@ -3,6 +3,8 @@ import { dbConnect } from "@/lib/mongodb";
 import { User } from "@/lib/models";
 import { hashPassword } from "@/lib/auth";
 
+export const dynamic = "force-dynamic";
+
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
   await dbConnect();
   const body = await req.json();
