@@ -147,7 +147,7 @@ export function startScheduler() {
 
       // 2) Send the digest exactly once per day at the predefined time,
       //    regardless of how many scrape runs happened today.
-      if (settings.email.enabled && hhmm === settings.emailTime && lastEmailDate !== todayKey) {
+      if (settings.email.enabled && hhmm === settings.email.emailTime && lastEmailDate !== todayKey) {
         lastEmailDate = todayKey;
         await sendDailyDigest(settings);
       }

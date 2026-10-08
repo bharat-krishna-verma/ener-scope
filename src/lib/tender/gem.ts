@@ -1,6 +1,7 @@
 import * as cheerio from "cheerio";
 import { decrypt } from "../crypto";
-import { scrapePortal, badUrl, type RawTender } from "./scraper";
+import { scrapePortal, badUrl } from "./scraper";
+import type { RawTender } from "./pipeline";
 
 /**
  * GeM (bidplus.gem.gov.in) facts, from research:

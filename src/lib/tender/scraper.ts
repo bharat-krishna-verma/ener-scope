@@ -192,14 +192,16 @@ async function signIn(site: PortalForScrape): Promise<string> {
  */
 export async function scrapePortal(site: PortalForScrape): Promise<RawTender[]> {
   const s: PortalForScrape["selectors"] = { ...DEFAULT_SELECTORS, ...(site.selectors || {}) };
-  const a: PortalForScrape["access"] = {
-    mode: "public",
-    loginUrl: "",
-    user: "",
-    pass: "",
-    cookie: "",
-    ...(site.access || {}),
-  } as PortalForScrape["access"];
+  const a: PortalForScrape["access"] = Object.assign(
+    {
+      mode: "public" as const,
+      loginUrl: "",
+      user: "",
+      pass: "",
+      cookie: "",
+    },
+    site.access || {},
+  );
 
   const err = badUrl(site.listUrl) || (a.mode === "login" ? badUrl(a.loginUrl) : "");
   if (err) throw new Error(err);

@@ -8,23 +8,23 @@ export async function GET() {
 
   const since = startOfToday();
 
-  const [todayTotal, overall, portals, sources, lastRun] =
+  const [todayTotal, overall, portals, sources, lastRunDoc] =
     await Promise.all([
       Tender.countDocuments({}),
       Tender.countDocuments({}),
       Portal.countDocuments({}),
       Source.countDocuments({ enabled: true }),
-      RunLog.findOne()
-        .sort({ createdAt: -1 })
-        .lean<{ createdAt?: Date }>(),
+      RunLog.findOne().sort({ createdAt: -1 }).lean(),
     ]);
+
+  const lastRun = lastRunDoc as { createdAt?: Date } | null;
 
   const docs = await Tender.find()
     .sort({ foundAt: -1 })
     .limit(500)
     .lean();
 
-  const rows: TenderRow[] = docs.map((d: any) => ({
+  const rows: TenderRow[] = (docs as any[]).map((d) => ({
     title: d.title,
     link: d.link,
     org: d.org,

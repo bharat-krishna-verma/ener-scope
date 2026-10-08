@@ -134,9 +134,9 @@ export const DEFAULT_SETTINGS: AppSettings = {
 export async function getSettings(): Promise<AppSettings> {
   await dbConnect();
 
-  const doc = await Setting.findOne({ key: "app" }).lean<{
+  const doc = (await Setting.findOne({ key: "app" }).lean()) as {
     value?: unknown;
-  }>();
+  } | null;
 
   const saved = (doc?.value ?? {}) as Partial<AppSettings>;
 
